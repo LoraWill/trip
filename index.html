@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Italy 2026 — Lora & Jessica</title>
+
+<style>
+  :root {
+    --terracotta: #C2714F;
+    --gold: #B8986A;
+    --ink: #1C1C1C;
+    --parchment: #F5F0E8;
+    --cream: #FDF9F3;
+    --sage: #6B8070;
+    --blush: #E8D5C4;
+    --deep: #2C1F14;
+    --text: #3A2E24;
+    --venice: #2E6E8E;
+    --florence: #7B6E42;
+    --rome: #8B3A2A;
+    --travel: #3D3D4E;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--parchment); font-family: 'Times New Roman', Times, serif; color: var(--text); font-size: 17px; line-height: 1.7; }
+
+  /* HERO */
+  .hero { background: var(--deep); color: var(--parchment); text-align: center; padding: 80px 40px 60px; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 50%, rgba(184,152,106,0.18) 0%, transparent 60%), radial-gradient(ellipse at 75% 20%, rgba(194,113,79,0.12) 0%, transparent 55%); }
+  .hero-eyebrow { font-family: 'Times New Roman', Times, serif; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; position: relative; }
+  .hero h1 { font-family: 'Times New Roman', Times, serif; font-size: clamp(42px, 8vw, 80px); font-weight: 400; line-height: 1.05; position: relative; }
+  .hero h1 em { font-style: italic; color: var(--gold); }
+  .hero-sub { font-size: 20px; color: var(--blush); margin-top: 16px; font-style: italic; position: relative; }
+  .hero-meta { display: flex; justify-content: center; gap: 40px; margin-top: 40px; position: relative; flex-wrap: wrap; }
+  .hero-meta-item { font-family: 'Times New Roman', Times, serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--blush); }
+  .hero-meta-item strong { display: block; font-size: 15px; color: var(--parchment); letter-spacing: 1px; margin-top: 4px; }
+  .divider-ornament { text-align: center; color: var(--gold); font-size: 22px; letter-spacing: 8px; padding: 20px 0 0; position: relative; }
+
+  /* LAYOUT */
+  .container { max-width: 920px; margin: 0 auto; padding: 0 24px; }
+
+  /* SECTION HEADER */
+  .section-header { text-align: center; padding: 56px 0 36px; }
+  .section-label { font-family: 'Times New Roman', Times, serif; font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: var(--terracotta); margin-bottom: 12px; }
+  .section-title { font-family: 'Times New Roman', Times, serif; font-size: 36px; font-weight: 400; color: var(--deep); }
+
+  /* WEATHER STRIP */
+  .weather-strip { background: var(--deep); color: var(--parchment); padding: 48px 40px; }
+  .weather-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,0.08); max-width: 820px; margin: 0 auto; }
+  .weather-city { background: var(--deep); padding: 32px 28px; text-align: center; }
+  .weather-city-name { font-family: 'Times New Roman', Times, serif; font-size: 26px; font-weight: 400; color: var(--gold); margin-bottom: 6px; }
+  .weather-dates { font-family: 'Times New Roman', Times, serif; font-size: 10px; letter-spacing: 2px; color: rgba(245,240,232,0.5); text-transform: uppercase; margin-bottom: 20px; }
+  .weather-temp { font-family: 'Times New Roman', Times, serif; font-size: 42px; font-weight: 400; line-height: 1; color: var(--parchment); margin-bottom: 6px; }
+  .weather-temp span { font-size: 20px; color: var(--blush); font-style: italic; }
+  .weather-desc { font-size: 15px; font-style: italic; color: var(--blush); margin-top: 8px; line-height: 1.5; }
+  .weather-detail { font-family: 'Times New Roman', Times, serif; font-size: 11px; letter-spacing: 1px; color: rgba(245,240,232,0.55); margin-top: 14px; }
+
+  /* PHASE BLOCKS */
+  .itinerary-wrap { padding: 0 0 60px; }
+  .phase-block { margin-bottom: 44px; }
+  .phase-header { display: flex; align-items: center; gap: 18px; padding: 20px 0 16px; border-top: 2px solid var(--blush); margin-bottom: 14px; }
+  .phase-icon { font-size: 28px; flex-shrink: 0; }
+  .phase-title { font-family: 'Times New Roman', Times, serif; font-size: 28px; font-weight: 400; color: var(--deep); }
+  .phase-title em { font-style: italic; color: var(--terracotta); }
+
+  /* DAY CARDS */
+  .day-card { background: var(--cream); border-left: 3px solid var(--gold); padding: 22px 26px; margin-bottom: 10px; }
+  .day-card.venice { border-left-color: var(--venice); }
+  .day-card.florence { border-left-color: var(--florence); }
+  .day-card.rome { border-left-color: var(--rome); }
+  .day-card.travel-day { border-left-color: var(--travel); background: #F3F3F7; }
+  .day-card.highlight { background: #FEF6F0; }
+  .day-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+  .day-label { font-family: 'Times New Roman', Times, serif; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--terracotta); white-space: nowrap; }
+  .day-date { font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: 700; color: var(--deep); }
+  .day-tag { font-family: 'Times New Roman', Times, serif; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; background: var(--gold); color: #fff; padding: 2px 8px; border-radius: 2px; }
+  .day-tag.venice-tag { background: var(--venice); }
+  .day-tag.florence-tag { background: var(--florence); }
+  .day-tag.rome-tag { background: var(--rome); }
+  .day-tag.travel-tag { background: var(--travel); }
+  .day-tag.viator-tag { background: #5B4A8A; }
+  .day-tag.free-tag { background: var(--sage); }
+
+  /* TIMELINE inside day */
+  .timeline { margin-top: 10px; }
+  .tl-item { display: flex; gap: 16px; margin-bottom: 8px; }
+  .tl-time { font-family: 'Times New Roman', Times, serif; font-size: 11px; letter-spacing: 1px; color: var(--gold); min-width: 72px; text-align: right; padding-top: 3px; flex-shrink: 0; }
+  .tl-time.bold-time { font-weight: 600; color: var(--terracotta); }
+  .tl-content { font-size: 15.5px; line-height: 1.65; color: var(--text); border-left: 1px solid var(--blush); padding-left: 14px; }
+  .tl-content strong { color: var(--deep); }
+  .tl-content .viator-badge { display: inline-block; font-family: 'Times New Roman', Times, serif; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; background: #5B4A8A; color: #fff; padding: 1px 6px; border-radius: 2px; vertical-align: middle; margin-left: 5px; }
+  .tl-content .address { font-size: 13px; color: var(--sage); font-style: italic; margin-top: 2px; }
+  .tl-content .note { font-size: 13.5px; color: var(--sage); font-style: italic; margin-top: 3px; }
+
+  .day-note { font-style: italic; color: var(--sage); font-size: 14px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--blush); }
+
+  /* HOTEL REFERENCE */
+  .hotel-block { background: var(--cream); border: 1px solid var(--blush); padding: 22px 26px; margin-bottom: 12px; }
+  .hotel-name { font-family: 'Times New Roman', Times, serif; font-size: 20px; color: var(--deep); margin-bottom: 6px; }
+  .hotel-meta { font-family: 'Times New Roman', Times, serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--terracotta); margin-bottom: 10px; }
+  .hotel-details { font-size: 15px; color: var(--text); line-height: 1.85; }
+  .hotel-details strong { color: var(--deep); font-weight: 600; }
+
+  /* FLIGHTS */
+  .flight-block { background: var(--deep); color: var(--parchment); padding: 28px 32px; margin-bottom: 10px; }
+  .flight-block .route { font-family: 'Times New Roman', Times, serif; font-size: 22px; color: var(--gold); margin-bottom: 8px; }
+  .flight-block .flight-details { font-family: 'Times New Roman', Times, serif; font-size: 12px; letter-spacing: 1.5px; color: var(--blush); line-height: 2; }
+  .flight-block .flight-details strong { color: var(--parchment); }
+
+  /* CHECKLIST */
+  .checklist-section { background: var(--deep); padding: 60px 40px; color: var(--parchment); }
+  .checklist-section .section-title { color: var(--parchment); }
+  .checklist-section .section-label { color: var(--gold); }
+  .checklist-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 32px; max-width: 860px; margin: 0 auto; }
+  .checklist-group h3 { font-family: 'Times New Roman', Times, serif; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid rgba(184,152,106,0.3); }
+  .check-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; font-size: 15px; color: var(--blush); line-height: 1.5; cursor: pointer; transition: opacity 0.2s; }
+  .check-item .box { width: 16px; height: 16px; border: 1px solid var(--gold); border-radius: 2px; flex-shrink: 0; margin-top: 3px; transition: background 0.2s; display: flex; align-items: center; justify-content: center; }
+  .check-item.urgent .box { border-color: var(--terracotta); }
+  .check-item.urgent { color: #F5C4A8; }
+  .urgent-badge { font-family: 'Times New Roman', Times, serif; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: var(--terracotta); border: 1px solid var(--terracotta); padding: 1px 5px; border-radius: 2px; white-space: nowrap; display: inline-block; vertical-align: middle; margin-left: 6px; }
+
+  .footer { background: var(--blush); text-align: center; padding: 36px 24px; font-family: 'Times New Roman', Times, serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--text); }
+
+  @media (max-width: 640px) {
+    .weather-grid { grid-template-columns: 1fr; }
+    .hero { padding: 60px 24px 48px; }
+    .weather-strip, .checklist-section { padding: 36px 20px; }
+    .day-card { padding: 16px 18px; }
+    .tl-time { min-width: 60px; }
+  }
+
+  /* =============================================
+     HAMBURGER MENU
+  ============================================= */
+  .hamburger-btn {
+    position: fixed;
+    top: 18px;
+    right: 20px;
+    z-index: 1000;
+    background: var(--deep);
+    border: 1px solid rgba(184,152,106,0.4);
+    border-radius: 4px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.35);
+  }
+  .hamburger-btn:hover { background: #3a2c1e; border-color: var(--gold); }
+  .hamburger-btn span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--gold);
+    border-radius: 2px;
+    transition: transform 0.25s, opacity 0.25s;
+  }
+  .hamburger-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger-btn.open span:nth-child(2) { opacity: 0; }
+  .hamburger-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .side-panel {
+    position: fixed;
+    top: 0;
+    right: -380px;
+    width: 360px;
+    max-width: 92vw;
+    height: 100vh;
+    background: var(--deep);
+    z-index: 999;
+    transition: right 0.32s cubic-bezier(0.4,0,0.2,1);
+    overflow-y: auto;
+    box-shadow: -4px 0 32px rgba(0,0,0,0.45);
+    padding: 72px 0 40px;
+  }
+  .side-panel.open { right: 0; }
+
+  .side-panel-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 998;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .side-panel-overlay.open { opacity: 1; pointer-events: all; }
+
+  .panel-section-title {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    padding: 0 28px 12px;
+    border-bottom: 1px solid rgba(184,152,106,0.2);
+    margin-bottom: 6px;
+  }
+  .panel-empty {
+    padding: 20px 28px;
+    font-style: italic;
+    color: rgba(245,240,232,0.35);
+    font-size: 14px;
+  }
+  .past-day-item {
+    padding: 14px 28px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    cursor: default;
+    transition: background 0.15s;
+  }
+  .past-day-item:hover { background: rgba(255,255,255,0.04); }
+  .past-day-name {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 15px;
+    color: var(--parchment);
+    margin-bottom: 3px;
+  }
+  .past-day-date {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(184,152,106,0.7);
+  }
+  .past-day-badge {
+    display: inline-block;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 1px 6px;
+    border-radius: 2px;
+    margin-left: 6px;
+    vertical-align: middle;
+    opacity: 0.75;
+  }
+  .panel-intro {
+    padding: 0 28px 18px;
+    font-size: 13.5px;
+    font-style: italic;
+    color: rgba(245,240,232,0.45);
+    line-height: 1.6;
+  }
+
+  /* =============================================
+     PRINT STYLES
+  ============================================= */
+  @media print {
+    @page {
+      size: letter;
+      margin: 0.65in 0.7in 0.7in 0.7in;
+    }
+    @page :first {
+      margin-top: 0;
+    }
+
+    /* Base resets for print */
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    body { font-size: 12pt; line-height: 1.6; background: white !important; }
+
+    /* Remove screen-only decorative pseudo-elements that cause blank space */
+    .hero::before { display: none; }
+
+    /* ── Page 1: Hero + Weather ── */
+    .hero {
+      padding: 36pt 40pt 28pt;
+      page-break-after: avoid;
+    }
+    .hero h1 { font-size: 46pt; }
+    .hero-sub { font-size: 15pt; }
+    .hero-meta { margin-top: 20pt; gap: 24pt; }
+    .hero-meta-item { font-size: 9.5pt; }
+    .hero-meta-item strong { font-size: 12pt; }
+
+    .weather-strip {
+      padding: 24pt 32pt;
+      page-break-after: always;
+    }
+    .weather-grid { gap: 1pt; }
+    .weather-city { padding: 18pt 16pt; }
+    .weather-city-name { font-size: 18pt; }
+    .weather-temp { font-size: 30pt; }
+    .weather-temp span { font-size: 15pt; }
+    .weather-desc { font-size: 11pt; }
+    .weather-detail { font-size: 9.5pt; margin-top: 8pt; }
+
+    /* ── Page 2: Flights + Departure day ── */
+    .container { max-width: 100%; padding: 0; }
+
+    .section-header { padding: 20pt 0 14pt; }
+    .section-label { font-size: 9pt; letter-spacing: 3px; }
+    .section-title { font-size: 24pt; }
+
+    .container > .section-header:first-of-type { page-break-before: avoid; }
+
+    .flight-block { padding: 14pt 18pt; margin-bottom: 6pt; }
+    .flight-block .route { font-size: 16pt; margin-bottom: 5pt; }
+    .flight-block .flight-details { font-size: 10.5pt; line-height: 1.9; letter-spacing: 0.5px; }
+
+    .section-header + .itinerary-wrap { page-break-before: avoid; }
+
+    /* ── Day cards ── */
+    .day-card {
+      padding: 11pt 15pt;
+      margin-bottom: 7pt;
+      page-break-inside: avoid;
+    }
+    .day-header { margin-bottom: 7pt; gap: 9pt; }
+    .day-label { font-size: 9pt; letter-spacing: 2px; }
+    .day-date { font-size: 15pt; }
+    .day-tag { font-size: 8.5pt; padding: 1.5pt 6pt; }
+    .day-note { font-size: 9.5pt; margin-top: 7pt; padding-top: 7pt; }
+
+    .tl-item { margin-bottom: 6pt; gap: 10pt; }
+    .tl-time { font-size: 10pt; min-width: 56pt; }
+    .tl-content { font-size: 11pt; line-height: 1.6; padding-left: 12pt; }
+    .tl-content .note { font-size: 9.5pt; margin-top: 2pt; }
+    .tl-content .address { font-size: 9.5pt; margin-top: 2pt; }
+    .viator-badge { font-size: 8pt; padding: 1pt 5pt; }
+
+    /* ── Phase blocks ── */
+    .phase-block { margin-bottom: 18pt; }
+    .phase-header {
+      padding: 10pt 0 8pt;
+      margin-bottom: 8pt;
+      page-break-after: avoid;
+    }
+    .phase-title { font-size: 19pt; }
+
+    .phase-block:first-child { page-break-before: avoid; }
+    .phase-block:nth-child(2) { page-break-before: always; }
+    .phase-block:nth-child(3) { page-break-before: always; }
+    .phase-block:nth-child(4) { page-break-before: always; }
+
+    /* ── Hotels section ── */
+    .section-header + div > .hotel-block:first-child,
+    .itinerary-wrap + .section-header { page-break-before: always; }
+
+    .hotel-block { padding: 13pt 17pt; margin-bottom: 9pt; page-break-inside: avoid; }
+    .hotel-name { font-size: 15pt; margin-bottom: 4pt; }
+    .hotel-meta { font-size: 9pt; letter-spacing: 1.5px; margin-bottom: 7pt; }
+    .hotel-details { font-size: 11pt; line-height: 1.85; }
+
+    /* ── Checklist ── */
+    .checklist-section {
+      page-break-before: always;
+      padding: 24pt 32pt;
+    }
+    .checklist-section .section-title { font-size: 24pt; }
+    .checklist-grid { gap: 20pt; }
+    .checklist-group h3 { font-size: 9.5pt; letter-spacing: 2px; margin-bottom: 9pt; padding-bottom: 5pt; }
+    .check-item { font-size: 11pt; margin-bottom: 8pt; gap: 9pt; line-height: 1.5; }
+    .check-item .box { width: 13pt; height: 13pt; margin-top: 1pt; }
+    .urgent-badge { font-size: 8pt; padding: 1pt 5pt; }
+
+    .checklist-group { page-break-inside: avoid; }
+
+    /* ── Footer ── */
+    .footer { padding: 16pt 24pt; font-size: 9.5pt; page-break-before: avoid; }
+
+    /* Hide interactive hint text */
+    .checklist-section > div:first-child > div:last-child { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HAMBURGER BUTTON -->
+<button class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+  <span></span><span></span><span></span>
+</button>
+
+<!-- SIDE PANEL OVERLAY -->
+<div class="side-panel-overlay" id="panelOverlay"></div>
+
+<!-- SIDE PANEL -->
+<div class="side-panel" id="sidePanel">
+  <div class="panel-section-title">Previous Days</div>
+  <div class="panel-intro">Days whose dates have passed are archived here and removed from the main itinerary.</div>
+  <div id="pastDaysList">
+    <div class="panel-empty">No past days yet — check back once the trip begins!</div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Rick Steves Tour · VFR060926</div>
+  <h1>La Bella <em>Italia</em></h1>
+  <div class="hero-sub">Lora & Jessica Williams · June 7 – 19, 2026</div>
+  <div class="hero-meta">
+    <div class="hero-meta-item">Travelers<strong>Lora &amp; Jessica</strong></div>
+    <div class="hero-meta-item">Tour Code<strong>VFR060926</strong></div>
+    <div class="hero-meta-item">Outbound Ref<strong>A5BNOO (Air Canada)</strong></div>
+    <div class="hero-meta-item">Cities<strong>Venice · Florence · Rome</strong></div>
+  </div>
+  <div class="divider-ornament">· · ·</div>
+</div>
+
+<!-- WEATHER -->
+<div class="weather-strip">
+  <div style="text-align:center; margin-bottom:32px;">
+    <div class="section-label" style="color:var(--gold);">Expected Conditions</div>
+    <div class="section-title" style="color:var(--parchment);">Weather in June</div>
+  </div>
+  <div class="weather-grid">
+    <div class="weather-city">
+      <div class="weather-city-name">Venice</div>
+      <div class="weather-dates">June 8–11</div>
+      <div class="weather-temp">78°F <span>/ 63°F</span></div>
+      <div class="weather-desc">Warm & humid with long sunny days (~15.5 hrs of light). Occasional afternoon thunderstorms. Lagoon breezes help.</div>
+      <div class="weather-detail">Avg high 86°F · Avg low 56°F<br>~9–12 rainy days in June · Pack umbrella</div>
+    </div>
+    <div class="weather-city">
+      <div class="weather-city-name">Florence</div>
+      <div class="weather-dates">June 12–14</div>
+      <div class="weather-temp">81°F <span>/ 68°F</span></div>
+      <div class="weather-desc">Hot and sunny — Italy's warmest city in June. Light evening breezes. Excellent for outdoor sightseeing & the hilltop at Piazzale Michelangelo.</div>
+      <div class="weather-detail">Avg high 81°F · Avg low 68°F<br>~7 rainy days in June · Sunscreen essential</div>
+    </div>
+    <div class="weather-city">
+      <div class="weather-city-name">Rome</div>
+      <div class="weather-dates">June 15–19</div>
+      <div class="weather-temp">83°F <span>/ 74°F</span></div>
+      <div class="weather-desc">Rome is drier than the north in June — mostly sunny. Hot afternoons. Carry water constantly. Warm evenings are perfect for strolling.</div>
+      <div class="weather-detail">Avg high 83°F · Avg low 74°F<br>~3 rainy days in June · Stay hydrated</div>
+    </div>
+  </div>
+  <div style="text-align:center; margin-top:20px; font-family:'Times New Roman',Times,serif; font-size:11px; letter-spacing:1.5px; color:rgba(245,240,232,0.45); text-transform:uppercase;">
+    Pack light layers · Compact umbrella · Comfortable walking shoes · Sunscreen · Cash euros for city taxes &amp; transfers
+  </div>
+</div>
+
+<!-- FLIGHTS -->
+<div class="container">
+  <div class="section-header">
+    <div class="section-label">All Flights</div>
+    <div class="section-title">Air Canada Bookings</div>
+  </div>
+  <div style="margin-bottom: 48px;">
+    <div class="flight-block">
+      <div class="route">✈ Indianapolis → Toronto → Venice</div>
+      <div class="flight-details">
+        <strong>Booking Reference:</strong> A5BNOO &nbsp;·&nbsp; <strong>Date:</strong> Sunday, June 7, 2026<br>
+        IND → YYZ (Toronto) then connecting YYZ → VCE (Venice Marco Polo)<br>
+        <strong>Arrival Venice (AC816):</strong> Monday, June 8 at 9:30–9:40 AM<br>
+        <span style="color:rgba(245,240,232,0.5); font-style:italic;">Confirm exact IND departure time in your Air Canada booking</span>
+      </div>
+    </div>
+    <div class="flight-block">
+      <div class="route">✈ Rome → Toronto → Indianapolis (Return)</div>
+      <div class="flight-details">
+        <strong>Date:</strong> Friday, June 19, 2026<br>
+        <strong>AC891</strong> &nbsp; FCO (Rome Fiumicino) → YYZ (Toronto) &nbsp;·&nbsp; Departs <strong>12:25 PM</strong> · Arrives <strong>4:00 PM</strong><br>
+        <strong>AC8897</strong> &nbsp; YYZ → IND (Indianapolis) &nbsp;·&nbsp; Departs <strong>6:55 PM</strong> · Arrives <strong>8:35 PM</strong><br>
+        <span style="color:rgba(245,240,232,0.5); font-style:italic;">Hotel Lancelot taxi to FCO is arranged — depart hotel by 8:00 AM to be safe</span>
+      </div>
+    </div>
+  </div>
+
+<!-- ITINERARY -->
+  <div class="section-header" style="padding-top:10px;">
+    <div class="section-label">Day by Day</div>
+    <div class="section-title">Complete Daily Itinerary</div>
+  </div>
+
+  <div class="itinerary-wrap">
+
+    <!-- JUNE 7: DEPARTURE -->
+    <div class="phase-block">
+      <div class="phase-header">
+        <div class="phase-icon">✈️</div>
+        <div class="phase-title"><em>Departure Day</em> — Indianapolis</div>
+      </div>
+
+      <div class="day-card travel-day" data-date="2026-06-07" data-day-name="Sunday, June 7" data-day-label="Day 1 — Travel">
+        <div class="day-header">
+          <span class="day-label">Day 1</span>
+          <span class="day-date">Sunday, June 7</span>
+          <span class="day-tag travel-tag">Travel</span>
+        </div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-time">All Day</div>
+            <div class="tl-content">Depart Indianapolis (IND) on Air Canada ref <strong>A5BNOO</strong>. Connect through Toronto Pearson (YYZ). Overnight transatlantic to Venice.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VENICE PRE-TOUR -->
+    <div class="phase-block">
+      <div class="phase-header">
+        <div class="phase-icon">🚤</div>
+        <div class="phase-title"><em>Venice</em> — Pre-Tour & Days 1–3</div>
+      </div>
+
+      <!-- June 8 -->
+      <div class="day-card venice highlight" data-date="2026-06-08" data-day-name="Monday, June 8" data-day-label="Day 2 — Venice Arrival" data-day-tag="venice-tag">
+        <div class="day-header">
+          <span class="day-label">Day 2</span>
+          <span class="day-date">Monday, June 8</span>
+          <span class="day-tag venice-tag">Arrival · Venice</span>
+        </div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-time bold-time">9:30 AM</div>
+            <div class="tl-content"><strong>Arrive Venice Marco Polo Airport (VCE)</strong> — AC816 from Toronto.<br>
+              <span class="note">Private hotel water taxi booked through Hotel La Fenice. Assistant will hold a "Williams" sign at arrivals. Car to Tronchetto carpark → private water taxi direct to hotel (~30–35 min). Pay €180 cash at hotel reception. Emergency: Ms. Tiziana +39 338 571 9876 · Hotel +39 041 5232333.</span>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">Afternoon</div>
+            <div class="tl-content"><strong>Check in — Hotel La Fenice et des Artistes</strong>, San Marco 1936<br>
+              <span class="note">Comfort Double with Terrace (Ref. ITAmziznjkmq-3236941). Rest &amp; recover from jet lag.</span>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">Afternoon</div>
+            <div class="tl-content">Vaporetto from hotel to <strong>Dorsoduro</strong> — wander the canals, stroll the Zattere promenade</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">Dinner</div>
+            <div class="tl-content"><strong>Cicchetti</strong> — relaxed Venetian tapas dinner. Vaporetto and walk back to hotel.</div>
+          </div>
+        </div>
+        <div class="day-note">City tax: €3.50/person/night (paid at hotel). You are in the same Comfort Double with Terrace for all Venice nights — you chose to pay the €80/night upgrade to keep this room through the tour.</div>
+      </div>
+
+      <!-- June 9 — Tour Day 1 -->
+      <div class="day-card venice" data-date="2026-06-09" data-day-name="Tuesday, June 9" data-day-label="Day 3 · Tour Day 1 — Venice" data-day-tag="venice-tag">
+        <div class="day-header">
+          <span class="day-label">Day 3 · Tour Day 1</span>
+          <span class="day-date">Tuesday, June 9</span>
+          <span class="day-tag venice-tag">Venice</span>
+        </div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-time">Morning</div>
+            <div class="tl-content">Coffee near hotel</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">Morning</div>
+            <div class="tl-content">Vaporetto to <strong>San Giorgio Maggiore</strong> — church &amp; bell tower with panoramic views of Venice</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">Midday</div>
+            <div class="tl-content">Vaporetto to <strong>Zattere</strong> — gelato at <strong>Gelateria Nico</strong></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">Late Lunch</div>
+            <div class="tl-content">Late light lunch near hotel — salad &amp; prosecco</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time bold-time">4:00 PM</div>
+            <div class="tl-content"><strong>Rick Steves Tour begins — Welcome Meeting</strong>. Meet your guide and fellow travelers. Do not be late.<br>
+              <span class="note">Location in your tour documents — check your RS account for details.</span>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">Evening</div>
+            <div class="tl-content"><strong>Orientation walk</strong> through Venice with guide</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">Dinner</div>
+            <div class="tl-content"><strong>Traditional Venetian dinner</strong> with tour group</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- June 10 — Tour Day 2 -->
+      <div class="day-card venice" data-date="2026-06-10" data-day-name="Wednesday, June 10" data-day-label="Day 4 · Tour Day 2 — Venice" data-day-tag="venice-tag">
+        <div class="day-header">
+          <span class="day-label">Day 4 · Tour Day 2</span>
+          <span class="day-date">Wednesday, June 10</span>
+          <span class="day-tag venice-tag">Venice</span>
+        </div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-time">Morning</div>
+            <div class="tl-content"><strong>Local guide walking tour</strong> — St. Mark's Square</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">Midday</div>
+            <div class="tl-content">Vaporetto to <strong>Fondamenta della Misericordia</strong> — local canal-side neighborhood</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">Evening</div>
+            <div class="tl-content"><strong>Aperitivo &amp; dinner by the canal</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- June 11 — Tour Day 3 -->
+      <div class="day-card venice" data-date="2026-06-11" data-day-name="Thursday, June 11" data-day-label="Day 5 · Tour Day 3 — Venice" data-day-tag="venice-tag">
+        <div class="day-header">
+          <span class="day-label">Day 5 · Tour Day 3</span>
+          <span class="day-date">Thursday, June 11</span>
+          <span class="day-tag venice-tag">Venice</span>
+        </div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-time">Morning</div>
+            <div class="tl-content">Tour <strong>Accademia Gallery</strong> — Venetian masters: Bellini, Titian, Giorgione, Veronese, Carpaccio</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">Afternoon</div>
+            <div class="tl-content"><strong>Private boat tour into the Venice Lagoon</strong></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">Lunch</div>
+            <div class="tl-content">Lunch on your own</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">Afternoon</div>
+            <div class="tl-content">Free time</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">Dinner</div>
+            <div class="tl-content">Dinner on your own</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">Evening</div>
+            <div class="tl-content"><strong>Gondola ride through moonlit canals</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FLORENCE -->
+    <div class="phase-block">
+      <div class="phase-header">
+        <div class="phase-icon">🌸</div>
+        <div class="phase-title"><em>Florence</em> — Days 4–6</div>
+      </div>
+
+      <!-- June 12 — Tour Day 4 -->
+      <div class="day-card florence" data-date="2026-06-12" data-day-name="Friday, June 12" data-day-label="Day 6 · Tour Day 4 — Venice → Florence" data-day-tag="florence-tag">
+        <div class="day-header">
+          <span class="day-label">Day 6 · Tour Day 4</span>
+          <span class="day-date">Friday, June 12</span>
+          <span class="day-tag florence-tag">Venice → Florence</span>
+        </div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-time">Morning</div>
+            <div class="tl-content"><strong>Travel day: Venice to Florence</strong> — ½ hour boat, then ~4 hours by coach through the Veneto and into Tuscany</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">Afternoon</div>
+            <div class="tl-content"><strong>Walking Renaissance tour</strong> of Florence's historic city center:<br>
+              Franciscan church of <strong>Santa Croce</strong>, including tombs of Michelangelo, Machiavelli, and Galileo · Brunelleschi's cathedral dome · Ghiberti's Baptistry doors
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">Dinner</div>
+            <div class="tl-content"><strong>Hearty Tuscan dinner</strong> together with tour group</div>
+          </div>
+        </div>
+        <div class="day-note">Check in: <strong>Hotel Silla</strong>, Via dei Renai 5, 50100 Firenze</div>
+      </div>
+
+      <!-- June 13 — Tour Day 5 -->
+      <div class="day-card florence" data-date="2026-06-13" data-day-name="Saturday, June 13" data-day-label="Day 7 · Tour Day 5 — Florence" data-day-tag="florence-tag">
+        <div class="day-header">
+          <span class="day-label">Day 7 · Tour Day 5</span>
+          <span class="day-date">Saturday, June 13</span>
+          <span class="day-tag florence-tag">Florence</span>
+        </div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-time">Morning</div>
+            <div class="tl-content"><strong>Walking tour of the backstreets of Florence</strong></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">Lunch</div>
+            <div class="tl-content"><strong>Cooking class</strong></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">Afternoon</div>
+            <div class="tl-content"><strong>Free time</strong> — wine window stops (<em>buchette del vino</em>), leather shopping (purse, wallet, folio)</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">Sunset</div>
+            <div class="tl-content"><strong>Piazzale Michelangelo</strong> — panoramic hilltop view of Florence at golden hour. Then walk downhill to <strong>Oltrarno</strong> neighborhood.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- June 14 — Tour Day 6 -->
+      <div class="day-card florence" data-date="2026-06-14" data-day-name="Sunday, June 14" data-day-label="Day 8 · Tour Day 6 — Florence" data-day-tag="florence-tag">
+        <div class="day-header">
+          <span class="day-label">Day 8 · Tour Day 6</span>
+          <span class="day-date">Sunday, June 14</span>
+          <span class="day-tag florence-tag">Florence</span>
+          <span class="day-tag free-tag">Free Time</span>
+        </div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-time">Morning</div>
+            <div class="tl-content"><strong>Uffizi Gallery</strong> — Botticelli's <em>Birth of Venus</em>, Leonardo, Michelangelo, Raphael</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">Afternoon</div>
+            <div class="tl-content"><strong>Free time</strong> — Gusto pizza, wandering, markets, wine windows</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">Evening</div>
+            <div class="tl-content"><strong>Accademia Gallery</strong> — Michelangelo's <em>Prisoners</em> and the original <em>David</em></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UMBRIA DRIVE THROUGH + ROME -->
+    <div class="phase-block">
+      <div class="phase-header">
+        <div class="phase-icon">🏛️</div>
+        <div class="phase-title"><em>Umbria &amp; Rome</em> — Days 7–10</div>
+      </div>
+
+      <!-- June 15 — Tour Day 7 -->
+      <div class="day-card rome" data-date="2026-06-15" data-day-name="Monday, June 15" data-day-label="Day 9 · Tour Day 7 — Florence → Rome" data-day-tag="rome-tag">
+        <div class="day-header">
+          <span class="day-label">Day 9 · Tour Day 7</span>
+          <span class="day-date">Monday, June 15</span>
+          <span class="day-tag rome-tag">Florence → Umbria → Rome</span>
+        </div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-time">Morning</div>
+            <div class="tl-content"><strong>Drive to Umbria</strong> (~4 hrs driving total through the day)</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">Lunch</div>
+            <div class="tl-content"><strong>Wine tasting at a family-run Umbrian winery</strong></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">Afternoon</div>
+            <div class="tl-content">Drive on to <strong>Rome</strong></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">Evening</div>
+            <div class="tl-content"><strong>First stroll through Rome</strong> — arrive and get acquainted with the Eternal City</div>
+          </div>
+        </div>
+        <div class="day-note">Check in: <strong>Hotel Lancelot</strong>, Via Capo d'Africa 47, 00184 Roma · +39 06 70450615. You stay in the same room June 15–19.</div>
+      </div>
+
+      <!-- June 16 — Tour Day 8 -->
+      <div class="day-card rome" data-date="2026-06-16" data-day-name="Tuesday, June 16" data-day-label="Day 10 · Tour Day 8 — Rome" data-day-tag="rome-tag">
+        <div class="day-header">
+          <span class="day-label">Day 10 · Tour Day 8</span>
+          <span class="day-date">Tuesday, June 16</span>
+          <span class="day-tag rome-tag">Rome</span>
+          <span class="day-tag viator-tag">Viator</span>
+        </div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-time">Morning</div>
+            <div class="tl-content"><strong>Pantheon</strong>, art tour, <strong>Trevi Fountain</strong><br>
+              <span class="note">After: rooftop at <strong>Hotel Fontana</strong> — views over the Trevi Fountain square</span>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">Afternoon</div>
+            <div class="tl-content"><strong>Free time on your own</strong> — explore Rome at leisure</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time bold-time">2:00 PM</div>
+            <div class="tl-content"><strong>Pasta making class</strong> <span class="viator-badge">Viator</span><br>
+              <span class="address">📍 Via Cipro, 4/L, 00136 Roma RM, Italy</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- June 17 — Tour Day 9 -->
+      <div class="day-card rome" data-date="2026-06-17" data-day-name="Wednesday, June 17" data-day-label="Day 11 · Tour Day 9 — Rome" data-day-tag="rome-tag">
+        <div class="day-header">
+          <span class="day-label">Day 11 · Tour Day 9</span>
+          <span class="day-date">Wednesday, June 17</span>
+          <span class="day-tag rome-tag">Rome</span>
+          <span class="day-tag viator-tag">Viator</span>
+        </div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-time">Morning</div>
+            <div class="tl-content"><strong>St. Peter-in-Chains Church</strong> — Michelangelo's <em>Moses</em><br>
+              <strong>Tour outside the Colosseum and the Roman Forum</strong></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time bold-time">1:15 PM</div>
+            <div class="tl-content"><strong>Inside Colosseum tour</strong> <span class="viator-badge">Viator</span><br>
+              <span class="address">📍 Meet at Santi Cosma e Damiano, Via dei Fori Imperiali 1, 00186 Roma</span>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">Evening</div>
+            <div class="tl-content"><strong>Farewell dinner</strong> with the Rick Steves tour group</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- June 18 — Tour Day 10 / Last Tour Day -->
+      <div class="day-card rome" data-date="2026-06-18" data-day-name="Thursday, June 18" data-day-label="Day 12 · Tour Day 10 — Rome" data-day-tag="rome-tag">
+        <div class="day-header">
+          <span class="day-label">Day 12 · Tour Day 10</span>
+          <span class="day-date">Thursday, June 18</span>
+          <span class="day-tag rome-tag">Rome</span>
+          <span class="day-tag viator-tag">Viator</span>
+        </div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-time">Morning</div>
+            <div class="tl-content"><strong>Breakfast provided</strong> at Hotel Lancelot (tour)</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time bold-time">9:00 AM</div>
+            <div class="tl-content"><strong>Vatican Museums, Sistine Chapel &amp; St. Peter's Basilica</strong> <span class="viator-badge">Viator</span><br>
+              <span class="address">📍 Meet at Via Tunisi 4, 00192 Roma RM, Italy</span>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">Evening</div>
+            <div class="tl-content"><strong>Rick Steves Tour officially ends</strong> — June 18 in Rome.<br>
+              <span class="note">You remain at Hotel Lancelot for one additional night.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- June 19 — Extra night / Departure -->
+      <div class="day-card travel-day highlight" data-date="2026-06-19" data-day-name="Friday, June 19" data-day-label="Day 13 — Departure" data-day-tag="travel-tag">
+        <div class="day-header">
+          <span class="day-label">Day 13</span>
+          <span class="day-date">Friday, June 19</span>
+          <span class="day-tag travel-tag">Departure Day</span>
+        </div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-time">7:00 AM</div>
+            <div class="tl-content">Breakfast at Hotel Lancelot (included with extra night rate). Checkout by 11:00 AM.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time bold-time">~8:00 AM</div>
+            <div class="tl-content"><strong>Hotel-arranged taxi departs for FCO (Rome Fiumicino Airport)</strong><br>
+              <span class="note">Taxi arranged through Hotel Lancelot. Confirm pickup time with hotel — allow ample time for international check-in.</span>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time bold-time">12:25 PM</div>
+            <div class="tl-content"><strong>AC891 departs FCO → YYZ (Toronto)</strong> · Arrives Toronto <strong>4:00 PM</strong></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time bold-time">6:55 PM</div>
+            <div class="tl-content"><strong>AC8897 departs YYZ → IND (Indianapolis)</strong> · Arrives <strong>8:35 PM</strong><br>
+              <span class="note">Welcome home! 🏡</span>
+            </div>
+          </div>
+        </div>
+        <div class="day-note">City tax at checkout: €6/person/night for Rome nights — pay in cash at Hotel Lancelot. Room rate for extra night: €224 (breakfast included).</div>
+      </div>
+    </div>
+
+  </div><!-- end itinerary-wrap -->
+
+  <!-- HOTEL REFERENCE -->
+  <div class="section-header" style="padding-top: 10px;">
+    <div class="section-label">Confirmations</div>
+    <div class="section-title">Hotels at a Glance</div>
+  </div>
+  <div style="margin-bottom: 52px;">
+    <div class="hotel-block">
+      <div class="hotel-meta">Venice · June 8–11 (pre-tour + tour nights)</div>
+      <div class="hotel-name">Hotel La Fenice et des Artistes ★★★S</div>
+      <div class="hotel-details">
+        <strong>Address:</strong> San Marco 1936, Venice 30124 &nbsp;·&nbsp; <strong>Phone:</strong> +39 041 5232333<br>
+        <strong>Pre-tour Booking Ref:</strong> ITAmziznjkmq-3236941 (Jun 7–9 pre-paid, €665.60)<br>
+        <strong>Room:</strong> Comfort Double with Terrace — confirmed to keep same room through tour at +€80/night extra<br>
+        <strong>Airport Transfer:</strong> ✅ Confirmed — Jun 8, AC816 from Toronto. Pay €180 cash at reception.<br>
+        &nbsp;&nbsp;&nbsp;If delayed: Hotel +39 041 5232333 · Ms. Tiziana +39 338 571 9876<br>
+        <strong>City Tax:</strong> €3.50/person/night (paid in hotel, not included in rate)
+      </div>
+    </div>
+    <div class="hotel-block">
+      <div class="hotel-meta">Florence · June 12–15 (approx. 3 tour nights)</div>
+      <div class="hotel-name">Hotel Silla</div>
+      <div class="hotel-details">
+        <strong>Address:</strong> Via dei Renai 5, 50100 Firenze<br>
+        <strong>Note:</strong> Hotel assigned by Rick Steves tour — confirm exact check-in/check-out in your tour documents
+      </div>
+    </div>
+    <div class="hotel-block">
+      <div class="hotel-meta">Rome · June 15–19 (tour nights + 1 extra night)</div>
+      <div class="hotel-name">Hotel Lancelot</div>
+      <div class="hotel-details">
+        <strong>Address:</strong> Via Capo d'Africa 47, 00184 Roma &nbsp;·&nbsp; <strong>Phone:</strong> +39 06 70450615<br>
+        <strong>Confirmation Ref:</strong> 104202 (arr. Jun 15, depart Jun 19, 4 total nights)<br>
+        <strong>Extra night Booking Ref:</strong> 2025123045133392 (Jun 18–19, €224, breakfast included)<br>
+        <strong>Checkout:</strong> June 19 by 11:00 AM &nbsp;·&nbsp; <strong>Breakfast:</strong> 7:00–10:30 AM (extra night)<br>
+        <strong>City Tax:</strong> €6/person/night — cash at checkout (not included)<br>
+        <strong>Free cancellation until:</strong> June 15, 2026<br>
+        <strong>Airport Taxi (FCO):</strong> Hotel-arranged — confirm pickup time for June 19 departure
+      </div>
+    </div>
+  </div>
+
+</div><!-- end container -->
+
+<!-- CHECKLIST -->
+<div class="checklist-section">
+  <div style="text-align:center; margin-bottom:40px;">
+    <div class="section-label">Before You Go</div>
+    <div class="section-title">Pre-Departure Checklist</div>
+    <div style="color:rgba(245,240,232,0.5); font-style:italic; margin-top:10px; font-size:15px;">You leave in 11 days. Tap each item to check it off.</div>
+  </div>
+  <div class="checklist-grid">
+
+    <div class="checklist-group">
+      <h3>🚨 Urgent — Do Immediately</h3>
+      <div class="check-item urgent">
+        <div class="box"></div>
+        <div>Register for <strong>Venice entry fee exemption voucher</strong> <span class="urgent-badge">Now</span><br><small style="font-size:12px;opacity:0.7;">ricksteves.com/tours/italy/venice-entry — RS recommends 1–2 weeks ahead</small></div>
+      </div>
+      <div class="check-item urgent">
+        <div class="box"></div>
+        <div>Confirm <strong>Rome airport taxi</strong> pickup time with Hotel Lancelot for June 19 FCO departure <span class="urgent-badge">Now</span><br><small style="font-size:12px;opacity:0.7;">AC891 departs 12:25 PM — depart hotel ~8:00 AM</small></div>
+      </div>
+      <div class="check-item urgent">
+        <div class="box"></div>
+        <div>Log into <strong>Rick Steves tour account</strong> and download all documents <span class="urgent-badge">Required</span><br><small style="font-size:12px;opacity:0.7;">Hotel list, hotel directions, group roster, On Call emergency numbers, welcome meeting location</small></div>
+      </div>
+      <div class="check-item urgent">
+        <div class="box"></div>
+        <div>Review <strong>advance reservations list</strong> in RS Pre-Tour Planning section <span class="urgent-badge">Check</span><br><small style="font-size:12px;opacity:0.7;">Confirm all Viator bookings have confirmation numbers in hand</small></div>
+      </div>
+    </div>
+
+    <div class="checklist-group">
+      <h3>📋 Tour Admin</h3>
+      <div class="check-item">
+        <div class="box"></div>
+        <div>Confirm tour waiver &amp; safety pledge signed in RS account</div>
+      </div>
+      <div class="check-item">
+        <div class="box"></div>
+        <div>Verify emergency contact info in tour account is current</div>
+      </div>
+      <div class="check-item">
+        <div class="box"></div>
+        <div>Print &amp; pack hotel directions, complete hotel list, group roster, On Call numbers</div>
+      </div>
+      <div class="check-item">
+        <div class="box"></div>
+        <div>Download <strong>Rick Steves Audio Europe app</strong> — download all Italy destination tours on WiFi before leaving</div>
+      </div>
+      <div class="check-item">
+        <div class="box"></div>
+        <div>Save all Viator confirmation numbers: Colosseum inside tour, Vatican Museums tour, and pasta making class</div>
+      </div>
+    </div>
+
+    <div class="checklist-group">
+      <h3>💰 Money &amp; Cash</h3>
+      <div class="check-item">
+        <div class="box"></div>
+        <div><strong>€180 cash</strong> for Venice airport water taxi (Hotel La Fenice)</div>
+      </div>
+      <div class="check-item">
+        <div class="box"></div>
+        <div><strong>€10.50</strong> Venice city tax (~3 nights × 2 × €3.50/person)</div>
+      </div>
+      <div class="check-item">
+        <div class="box"></div>
+        <div><strong>€48</strong> Rome city tax (4 nights × 2 × €6/person)</div>
+      </div>
+      <div class="check-item">
+        <div class="box"></div>
+        <div>Additional cash euros for meals, gelato, wine windows, shopping</div>
+      </div>
+      <div class="check-item">
+        <div class="box"></div>
+        <div>Notify bank &amp; credit cards of travel dates (June 7–19, Italy)</div>
+      </div>
+      <div class="check-item">
+        <div class="box"></div>
+        <div>Confirm international phone plan for Lora (812-663-8373) and Jessica (812-614-0942)</div>
+      </div>
+    </div>
+
+    <div class="checklist-group">
+      <h3>🎒 Packing Essentials</h3>
+      <div class="check-item">
+        <div class="box"></div>
+        <div>One carry-on + small day pack only (RS tour rule — no large checked bags)</div>
+      </div>
+      <div class="check-item">
+        <div class="box"></div>
+        <div>Rick Steves Italy guidebook (purchased Nov 2025)</div>
+      </div>
+      <div class="check-item">
+        <div class="box"></div>
+        <div>Moneybelt or hidden pocket — pickpocket protection (essential in Venice &amp; Rome)</div>
+      </div>
+      <div class="check-item">
+        <div class="box"></div>
+        <div>N95/KN95 masks (Rick Steves tour requirement)</div>
+      </div>
+      <div class="check-item">
+        <div class="box"></div>
+        <div>Wired headphones with 3.5mm plug (for RS audio guide system)</div>
+      </div>
+      <div class="check-item">
+        <div class="box"></div>
+        <div>Comfortable walking shoes — expect 5–10 miles/day on cobblestones</div>
+      </div>
+      <div class="check-item">
+        <div class="box"></div>
+        <div>Compact umbrella &amp; light layer (afternoon storms in Venice &amp; Florence)</div>
+      </div>
+      <div class="check-item">
+        <div class="box"></div>
+        <div>Sunscreen — Italy in June is intense, especially Rome</div>
+      </div>
+    </div>
+
+    <div class="checklist-group">
+      <h3>📄 Documents</h3>
+      <div class="check-item">
+        <div class="box"></div>
+        <div>Valid passports — both Lora &amp; Jessica (must be valid through at least Dec 2026)</div>
+      </div>
+      <div class="check-item">
+        <div class="box"></div>
+        <div>Air Canada booking ref <strong>A5BNOO</strong> (outbound) + return flights AC891/AC8897</div>
+      </div>
+      <div class="check-item">
+        <div class="box"></div>
+        <div>Copies of all hotel confirmations (printed + digital)</div>
+      </div>
+      <div class="check-item">
+        <div class="box"></div>
+        <div>Travel insurance policy &amp; emergency contact card</div>
+      </div>
+      <div class="check-item">
+        <div class="box"></div>
+        <div>All Viator booking confirmations for: Colosseum inside tour (1:15 PM, Jun 17), Vatican Museums tour (9:00 AM, Jun 18), pasta making class (2:00 PM, Jun 16)</div>
+      </div>
+    </div>
+
+    <div class="checklist-group">
+      <h3>🏠 Home &amp; Office</h3>
+      <div class="check-item">
+        <div class="box"></div>
+        <div>Out of office on email for June 7–20 (law firm)</div>
+      </div>
+      <div class="check-item">
+        <div class="box"></div>
+        <div>Tim, Wanda &amp; Sherell briefed on firm coverage while away</div>
+      </div>
+      <div class="check-item">
+        <div class="box"></div>
+        <div>Farm &amp; home covered while away</div>
+      </div>
+      <div class="check-item">
+        <div class="box"></div>
+        <div>Let Hotel Lancelot know estimated check-in time for June 15 (they requested this)</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div>Williams Law Office · Italy 2026 · Lora &amp; Jessica · Tour VFR060926 · AC A5BNOO</div>
+  <div style="margin-top:6px; opacity:0.5;">Compiled from Gmail &amp; itinerary — May 2026</div>
+</div>
+
+<script>
+  // ── Checklist interaction ──────────────────────────────────────────
+  document.querySelectorAll('.check-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const box = item.querySelector('.box');
+      const checked = box.dataset.checked === 'true';
+      if (checked) {
+        box.dataset.checked = 'false';
+        box.innerHTML = '';
+        box.style.background = '';
+        item.style.opacity = '1';
+        item.style.textDecoration = 'none';
+      } else {
+        box.dataset.checked = 'true';
+        box.innerHTML = '<svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        box.style.background = 'rgba(184,152,106,0.85)';
+        item.style.opacity = '0.45';
+        item.style.textDecoration = 'line-through';
+      }
+    });
+  });
+
+  // ── Hamburger menu ─────────────────────────────────────────────────
+  const btn = document.getElementById('hamburgerBtn');
+  const panel = document.getElementById('sidePanel');
+  const overlay = document.getElementById('panelOverlay');
+
+  function openPanel() {
+    panel.classList.add('open');
+    overlay.classList.add('open');
+    btn.classList.add('open');
+  }
+  function closePanel() {
+    panel.classList.remove('open');
+    overlay.classList.remove('open');
+    btn.classList.remove('open');
+  }
+  btn.addEventListener('click', () => panel.classList.contains('open') ? closePanel() : openPanel());
+  overlay.addEventListener('click', closePanel);
+
+  // ── Past-day logic ─────────────────────────────────────────────────
+  // Tag colour map
+  const tagColors = {
+    'venice-tag':   '#2E6E8E',
+    'florence-tag': '#7B6E42',
+    'rome-tag':     '#8B3A2A',
+    'travel-tag':   '#3D3D4E',
+  };
+
+  function getTodayStr() {
+    // Returns today's date in local time as YYYY-MM-DD
+    const d = new Date();
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  }
+
+  function processPastDays() {
+    const today = getTodayStr();
+    const cards = document.querySelectorAll('.day-card[data-date]');
+    const pastDaysList = document.getElementById('pastDaysList');
+    const pastItems = [];
+
+    cards.forEach(card => {
+      const cardDate = card.dataset.date;
+      if (cardDate < today) {
+        // Collect info before hiding
+        const name   = card.dataset.dayName  || cardDate;
+        const label  = card.dataset.dayLabel || '';
+        const tag    = card.dataset.dayTag   || '';
+        pastItems.push({ name, label, tag, date: cardDate });
+        // Hide the card
+        card.style.display = 'none';
+      }
+    });
+
+    // After hiding, clean up any phase-blocks that are now entirely empty of visible day-cards
+    document.querySelectorAll('.phase-block').forEach(block => {
+      const visible = block.querySelectorAll('.day-card[data-date]');
+      const allHidden = [...visible].every(c => c.style.display === 'none');
+      if (visible.length > 0 && allHidden) {
+        block.style.display = 'none';
+      }
+    });
+
+    // Populate side panel
+    if (pastItems.length === 0) {
+      pastDaysList.innerHTML = '<div class="panel-empty">No past days yet — check back once the trip begins!</div>';
+    } else {
+      pastDaysList.innerHTML = pastItems.map(item => {
+        const color = tagColors[item.tag] || '#6B8070';
+        const badgeHtml = item.tag
+          ? `<span class="past-day-badge" style="background:${color};">${item.tag.replace('-tag','')}</span>`
+          : '';
+        return `
+          <div class="past-day-item">
+            <div class="past-day-name">${item.name}${badgeHtml}</div>
+            <div class="past-day-date">${item.label}</div>
+          </div>`;
+      }).join('');
+    }
+
+    // Update badge count on hamburger if any past days
+    if (pastItems.length > 0) {
+      btn.setAttribute('title', `${pastItems.length} past day${pastItems.length > 1 ? 's' : ''} archived`);
+    }
+  }
+
+  processPastDays();
+</script>
+
+</body>
+</html>
