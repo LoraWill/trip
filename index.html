@@ -247,6 +247,107 @@
     line-height: 1.6;
   }
 
+  /* ACTIVITY CHECKBOX */
+  .tl-item {
+    position: relative;
+  }
+  .activity-check {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border: 1.5px solid var(--blush);
+    border-radius: 3px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+    transition: background 0.2s, border-color 0.2s;
+    background: transparent;
+    padding: 0;
+    outline: none;
+    align-self: flex-start;
+  }
+  .activity-check:hover {
+    border-color: var(--gold);
+    background: rgba(184,152,106,0.12);
+  }
+  .activity-check.done {
+    background: rgba(107,128,112,0.75);
+    border-color: var(--sage);
+  }
+  .activity-check.done svg { display: block; }
+  .activity-check svg { display: none; }
+
+  .tl-item.completed .tl-content {
+    opacity: 0.38;
+    text-decoration: line-through;
+    text-decoration-color: rgba(58,46,36,0.35);
+  }
+  .tl-item.completed .tl-time {
+    opacity: 0.38;
+  }
+
+  /* Completed items in side panel */
+  .past-activity-day {
+    padding: 12px 28px 4px;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(184,152,106,0.6);
+    margin-top: 6px;
+  }
+  .past-activity-item {
+    padding: 10px 16px 10px 36px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 13.5px;
+    color: rgba(245,240,232,0.65);
+    line-height: 1.45;
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .past-activity-item::before {
+    content: '✓';
+    position: absolute;
+    left: 18px;
+    top: 12px;
+    color: var(--sage);
+    font-size: 12px;
+  }
+  .past-activity-text { flex: 1; min-width: 0; }
+  .past-activity-time {
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: rgba(184,152,106,0.5);
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
+  .undo-btn {
+    flex-shrink: 0;
+    background: transparent;
+    border: 1px solid rgba(184,152,106,0.35);
+    border-radius: 3px;
+    color: rgba(184,152,106,0.75);
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    cursor: pointer;
+    transition: background 0.18s, border-color 0.18s, color 0.18s;
+    white-space: nowrap;
+    align-self: center;
+  }
+  .undo-btn:hover {
+    background: rgba(184,152,106,0.15);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
   /* =============================================
      PRINT STYLES
   ============================================= */
@@ -365,6 +466,10 @@
 
     /* Hide interactive hint text */
     .checklist-section > div:first-child > div:last-child { display: none; }
+    /* Hide activity checkboxes */
+    .activity-check { display: none !important; }
+    .tl-item.completed .tl-content { opacity: 1; text-decoration: none; }
+    .tl-item.completed .tl-time { opacity: 1; }
   }
 </style>
 </head>
@@ -374,16 +479,24 @@
 <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
   <span></span><span></span><span></span>
 </button>
+<!-- SYNC STATUS DOT -->
+<div id="syncDot" title="Connecting…" style="
+  position:fixed; top:14px; right:70px; z-index:1001;
+  width:8px; height:8px; border-radius:50%;
+  background: #B8986A;
+  transition: background 0.4s;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.3);
+"></div>
 
 <!-- SIDE PANEL OVERLAY -->
 <div class="side-panel-overlay" id="panelOverlay"></div>
 
 <!-- SIDE PANEL -->
 <div class="side-panel" id="sidePanel">
-  <div class="panel-section-title">Previous Days</div>
-  <div class="panel-intro">Days whose dates have passed are archived here and removed from the main itinerary.</div>
+  <div class="panel-section-title">Completed Activities</div>
+  <div class="panel-intro">Activities Lora has checked off appear here. Tap the ✓ beside any activity on the itinerary to mark it done.</div>
   <div id="pastDaysList">
-    <div class="panel-empty">No past days yet — check back once the trip begins!</div>
+    <div class="panel-empty">Nothing completed yet — check off activities as you go!</div>
   </div>
 </div>
 
@@ -1082,8 +1195,26 @@
   <div style="margin-top:6px; opacity:0.5;">Compiled from Gmail &amp; itinerary — May 2026</div>
 </div>
 
-<script>
-  // ── Checklist interaction ──────────────────────────────────────────
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+  import { getDatabase, ref, set, remove, onValue } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+
+  // ── Firebase setup ─────────────────────────────────────────────────
+  const firebaseConfig = {
+    apiKey: "AIzaSyDC9tEnaSpffENI6rQrsff8t24zjD8r8js",
+    authDomain: "lora-jesstrip.firebaseapp.com",
+    projectId: "lora-jesstrip",
+    storageBucket: "lora-jesstrip.firebasestorage.app",
+    messagingSenderId: "556359459611",
+    appId: "1:556359459611:web:0d09673a03937806a829be",
+    databaseURL: "https://lora-jesstrip-default-rtdb.firebaseio.com"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db  = getDatabase(app);
+
+  // ── Checklist interaction (Pre-departure checklist) ────────────────
   document.querySelectorAll('.check-item').forEach(item => {
     item.addEventListener('click', () => {
       const box = item.querySelector('.box');
@@ -1105,93 +1236,224 @@
   });
 
   // ── Hamburger menu ─────────────────────────────────────────────────
-  const btn = document.getElementById('hamburgerBtn');
-  const panel = document.getElementById('sidePanel');
+  const btn     = document.getElementById('hamburgerBtn');
+  const panel   = document.getElementById('sidePanel');
   const overlay = document.getElementById('panelOverlay');
 
-  function openPanel() {
-    panel.classList.add('open');
-    overlay.classList.add('open');
-    btn.classList.add('open');
-  }
-  function closePanel() {
-    panel.classList.remove('open');
-    overlay.classList.remove('open');
-    btn.classList.remove('open');
-  }
+  function openPanel()  { panel.classList.add('open');    overlay.classList.add('open');    btn.classList.add('open'); }
+  function closePanel() { panel.classList.remove('open'); overlay.classList.remove('open'); btn.classList.remove('open'); }
   btn.addEventListener('click', () => panel.classList.contains('open') ? closePanel() : openPanel());
   overlay.addEventListener('click', closePanel);
 
-  // ── Past-day logic ─────────────────────────────────────────────────
-  // Tag colour map
-  const tagColors = {
-    'venice-tag':   '#2E6E8E',
-    'florence-tag': '#7B6E42',
-    'rome-tag':     '#8B3A2A',
-    'travel-tag':   '#3D3D4E',
-  };
-
-  function getTodayStr() {
-    // Returns today's date in local time as YYYY-MM-DD
-    const d = new Date();
-    const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    return `${y}-${m}-${day}`;
+  // ── Sync status indicator ──────────────────────────────────────────
+  const syncDot = document.getElementById('syncDot');
+  function setSynced(ok) {
+    syncDot.title = ok ? 'Synced' : 'Connecting…';
+    syncDot.style.background = ok ? '#6B8070' : '#B8986A';
   }
 
-  function processPastDays() {
-    const today = getTodayStr();
-    const cards = document.querySelectorAll('.day-card[data-date]');
-    const pastDaysList = document.getElementById('pastDaysList');
-    const pastItems = [];
+  // ── Build a stable key for each tl-item ───────────────────────────
+  // We use the index assigned at DOM build time: "activity_0", "activity_1", …
+  const CHECK_SVG = '<svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
-    cards.forEach(card => {
-      const cardDate = card.dataset.date;
-      if (cardDate < today) {
-        // Collect info before hiding
-        const name   = card.dataset.dayName  || cardDate;
-        const label  = card.dataset.dayLabel || '';
-        const tag    = card.dataset.dayTag   || '';
-        pastItems.push({ name, label, tag, date: cardDate });
-        // Hide the card
-        card.style.display = 'none';
+  const tlItems = []; // ordered list so we can look up by key
+
+  document.querySelectorAll('.day-card .tl-item').forEach((tlItem, idx) => {
+    const key = `activity_${idx}`;
+    tlItem.dataset.activityIdx = idx;
+    tlItem.dataset.fbKey = key;
+    tlItems.push(tlItem);
+
+    const checkBtn = document.createElement('button');
+    checkBtn.className = 'activity-check';
+    checkBtn.setAttribute('aria-label', 'Mark activity complete');
+    checkBtn.innerHTML = CHECK_SVG;
+    tlItem.insertBefore(checkBtn, tlItem.firstChild);
+
+    // User taps checkbox → write to Firebase (listener does the visual work)
+    checkBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      if (!tlItem.classList.contains('completed')) {
+        // Optimistic: animate immediately, then write
+        animateOut(tlItem, () => {
+          set(ref(db, `completed/${key}`), {
+            text: getActivityText(tlItem),
+            time: getActivityTime(tlItem),
+            dayName: tlItem.closest('.day-card')?.dataset.dayName || ''
+          });
+        });
+      }
+    });
+  });
+
+  // ── Firebase listener — single source of truth ────────────────────
+  // Fires on every device whenever completed/* changes
+  onValue(ref(db, 'completed'), snapshot => {
+    const data = snapshot.val() || {};
+
+    // Determine which keys are completed in DB
+    const completedKeys = new Set(Object.keys(data));
+
+    tlItems.forEach(tlItem => {
+      const key = tlItem.dataset.fbKey;
+      const shouldBeComplete = completedKeys.has(key);
+      const isComplete = tlItem.classList.contains('completed');
+
+      if (shouldBeComplete && !isComplete) {
+        // Another device checked this off — apply silently (no animation needed if already hidden)
+        tlItem.classList.add('completed');
+        tlItem.style.display = 'none';
+        const cb = tlItem.querySelector('.activity-check');
+        if (cb) cb.classList.add('done');
+      } else if (!shouldBeComplete && isComplete) {
+        // Undo came from another device — restore
+        tlItem.classList.remove('completed');
+        tlItem.style.display = '';
+        const cb = tlItem.querySelector('.activity-check');
+        if (cb) cb.classList.remove('done');
       }
     });
 
-    // After hiding, clean up any phase-blocks that are now entirely empty of visible day-cards
+    collapseEmpty();
+    refreshCompletedPanel(data);
+    setSynced(true);
+  }, err => { console.error(err); setSynced(false); });
+
+  // ── Helpers ────────────────────────────────────────────────────────
+  function getActivityText(tlItem) {
+    const content = tlItem.querySelector('.tl-content');
+    if (!content) return '';
+    const clone = content.cloneNode(true);
+    clone.querySelectorAll('.note, .address').forEach(el => el.remove());
+    return clone.textContent.trim().replace(/\s+/g, ' ').substring(0, 90);
+  }
+
+  function getActivityTime(tlItem) {
+    const t = tlItem.querySelector('.tl-time');
+    return t ? t.textContent.trim() : '';
+  }
+
+  function animateOut(tlItem, callback) {
+    tlItem.style.transition = 'opacity 0.3s, max-height 0.35s, margin 0.35s, padding 0.35s';
+    tlItem.style.opacity = '0';
+    tlItem.style.maxHeight = tlItem.scrollHeight + 'px';
+    tlItem.offsetHeight;
+    tlItem.style.maxHeight = '0';
+    tlItem.style.marginBottom = '0';
+    tlItem.style.overflow = 'hidden';
+    setTimeout(() => {
+      tlItem.style.transition = '';
+      tlItem.style.opacity = '';
+      tlItem.style.maxHeight = '';
+      tlItem.style.marginBottom = '';
+      tlItem.style.overflow = '';
+      if (callback) callback();
+    }, 340);
+  }
+
+  function undoItem(key) {
+    remove(ref(db, `completed/${key}`));
+  }
+
+  // ── Collapse / restore empty day-cards & phase-blocks ─────────────
+  function collapseEmpty() {
+    document.querySelectorAll('.day-card').forEach(card => {
+      const items = card.querySelectorAll('.tl-item');
+      const allGone = items.length > 0 && [...items].every(i => i.classList.contains('completed'));
+      allGone ? collapseEl(card) : restoreEl(card);
+    });
     document.querySelectorAll('.phase-block').forEach(block => {
-      const visible = block.querySelectorAll('.day-card[data-date]');
-      const allHidden = [...visible].every(c => c.style.display === 'none');
-      if (visible.length > 0 && allHidden) {
-        block.style.display = 'none';
-      }
+      const cards = block.querySelectorAll('.day-card');
+      const allGone = cards.length > 0 && [...cards].every(c => c.dataset.collapsed === 'true');
+      allGone ? collapseEl(block) : restoreEl(block);
     });
-
-    // Populate side panel
-    if (pastItems.length === 0) {
-      pastDaysList.innerHTML = '<div class="panel-empty">No past days yet — check back once the trip begins!</div>';
-    } else {
-      pastDaysList.innerHTML = pastItems.map(item => {
-        const color = tagColors[item.tag] || '#6B8070';
-        const badgeHtml = item.tag
-          ? `<span class="past-day-badge" style="background:${color};">${item.tag.replace('-tag','')}</span>`
-          : '';
-        return `
-          <div class="past-day-item">
-            <div class="past-day-name">${item.name}${badgeHtml}</div>
-            <div class="past-day-date">${item.label}</div>
-          </div>`;
-      }).join('');
-    }
-
-    // Update badge count on hamburger if any past days
-    if (pastItems.length > 0) {
-      btn.setAttribute('title', `${pastItems.length} past day${pastItems.length > 1 ? 's' : ''} archived`);
-    }
   }
 
-  processPastDays();
+  function collapseEl(el) {
+    if (el.dataset.collapsed === 'true') return;
+    el.dataset.collapsed = 'true';
+    el.style.transition = 'opacity 0.25s, max-height 0.35s, margin 0.35s, padding 0.35s';
+    el.style.overflow = 'hidden';
+    el.style.maxHeight = el.scrollHeight + 'px';
+    el.offsetHeight;
+    el.style.opacity = '0';
+    el.style.maxHeight = '0';
+    el.style.marginBottom = '0';
+    el.style.padding = '0';
+    setTimeout(() => { el.style.display = 'none'; el.style.transition = ''; }, 360);
+  }
+
+  function restoreEl(el) {
+    if (el.dataset.collapsed !== 'true') return;
+    el.dataset.collapsed = 'false';
+    el.style.display = '';
+    el.style.opacity = '0';
+    el.style.maxHeight = '0';
+    el.style.overflow = 'hidden';
+    el.style.transition = 'opacity 0.3s, max-height 0.4s, margin 0.4s, padding 0.4s';
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      el.style.opacity = '1';
+      el.style.maxHeight = el.scrollHeight + 500 + 'px';
+      el.style.marginBottom = '';
+      el.style.padding = '';
+      setTimeout(() => {
+        el.style.transition = '';
+        el.style.maxHeight = '';
+        el.style.overflow = '';
+        el.style.opacity = '';
+      }, 420);
+    }));
+  }
+
+  // ── Side panel ─────────────────────────────────────────────────────
+  function refreshCompletedPanel(data) {
+    const pastDaysList = document.getElementById('pastDaysList');
+    const keys = Object.keys(data || {});
+
+    if (keys.length === 0) {
+      pastDaysList.innerHTML = '<div class="panel-empty">Nothing completed yet — tap the ✓ beside any activity to mark it done.</div>';
+      btn.removeAttribute('title');
+      return;
+    }
+
+    // Group by dayName, preserving DOM order of tlItems
+    const groups = new Map();
+    tlItems.forEach(tlItem => {
+      const key = tlItem.dataset.fbKey;
+      if (!data[key]) return;
+      const dayName = data[key].dayName || 'Unknown Day';
+      if (!groups.has(dayName)) groups.set(dayName, []);
+      groups.get(dayName).push({ key, tlItem, entry: data[key] });
+    });
+
+    pastDaysList.innerHTML = '';
+    groups.forEach((items, dayName) => {
+      const dayLabel = document.createElement('div');
+      dayLabel.className = 'past-activity-day';
+      dayLabel.textContent = dayName;
+      pastDaysList.appendChild(dayLabel);
+
+      items.forEach(({ key, entry }) => {
+        const row = document.createElement('div');
+        row.className = 'past-activity-item';
+
+        const textWrap = document.createElement('div');
+        textWrap.className = 'past-activity-text';
+        textWrap.innerHTML = `<div>${entry.text}</div>${entry.time ? `<div class="past-activity-time">${entry.time}</div>` : ''}`;
+
+        const undoBtn = document.createElement('button');
+        undoBtn.className = 'undo-btn';
+        undoBtn.textContent = 'Undo';
+        undoBtn.addEventListener('click', () => undoItem(key));
+
+        row.appendChild(textWrap);
+        row.appendChild(undoBtn);
+        pastDaysList.appendChild(row);
+      });
+    });
+
+    btn.setAttribute('title', `${keys.length} activit${keys.length > 1 ? 'ies' : 'y'} completed`);
+  }
 </script>
 
 </body>
